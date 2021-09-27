@@ -2,6 +2,7 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
+    APP_NAME: str = "boilerplate"
     DEBUG: bool = False
     ENV: str = "prod"
     CUSTOMER_CODE: str = "internal"
@@ -22,8 +23,8 @@ settings = Settings()
 
 class DevSettings(Settings):
     DEBUG: bool = True
-    REDOC_URL: str = "/api/redoc"
-    DOCS_URL: str = "/api/doc"
+    REDOC_URL: str = "/redoc"
+    DOCS_URL: str = "/doc"
 
 
 class ProductionSettings(Settings):

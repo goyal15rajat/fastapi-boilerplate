@@ -27,8 +27,8 @@ app = FastAPI(
         "name": "",
         "url": "http://host.example.com/api/",
     },
-    docs_url=app_configs.DOCS_URL,
-    redoc_url=app_configs.REDOC_URL,
+    docs_url=f"/api/{app_configs.APP_NAME}{app_configs.DOCS_URL}" if app_configs.DOCS_URL else None,
+    redoc_url=f"/api/{app_configs.APP_NAME}{app_configs.REDOC_URL}" if app_configs.REDOC_URL else None,
 )
 
 # Registering error handlers
@@ -41,4 +41,4 @@ app.add_exception_handler(Unprocessable, http_error_handler)
 app.add_exception_handler(InternalServerError, http_error_handler)
 app.add_exception_handler(ServiceUnavailable, http_error_handler)
 
-app.include_router(core_router, prefix="/api")
+app.include_router(core_router, prefix=f"/api/{app_configs.APP_NAME}")

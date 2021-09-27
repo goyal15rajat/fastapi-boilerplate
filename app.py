@@ -4,6 +4,17 @@ from fastapi import FastAPI
 
 from core.routes import api_router as core_router
 from core.settings import app_configs
+from core.utils.http_error import (
+    BadRequest,
+    Forbidden,
+    InternalServerError,
+    MethodNotAllowed,
+    NotFound,
+    ServiceUnavailable,
+    Unauthorized,
+    Unprocessable,
+    http_error_handler,
+)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,5 +30,15 @@ app = FastAPI(
     docs_url=app_configs.DOCS_URL,
     redoc_url=app_configs.REDOC_URL,
 )
+
+# Registering error handlers
+app.add_exception_handler(BadRequest, http_error_handler)
+app.add_exception_handler(Unauthorized, http_error_handler)
+app.add_exception_handler(Forbidden, http_error_handler)
+app.add_exception_handler(NotFound, http_error_handler)
+app.add_exception_handler(MethodNotAllowed, http_error_handler)
+app.add_exception_handler(Unprocessable, http_error_handler)
+app.add_exception_handler(InternalServerError, http_error_handler)
+app.add_exception_handler(ServiceUnavailable, http_error_handler)
 
 app.include_router(core_router, prefix="/api")

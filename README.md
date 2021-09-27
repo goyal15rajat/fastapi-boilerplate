@@ -24,6 +24,7 @@ For production -
 
 ## ENV
 ```bash
+APP_NAME=bolierplate
 ENV=dev
 CUSTOMER_CODE=internal
 ENV_CODE=pd

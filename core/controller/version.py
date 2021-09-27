@@ -15,14 +15,14 @@ class GetVersionResponse(BaseModel):
 
 @router.get("/", response_model=GetVersionResponse)
 async def manage_version():
-    '''Api to manage version
+    """Api to manage version
 
     Response -
     {
         "version": "v0.0.0",
         "deployedOn": "Sun Sep 26 02:31:43 2021"
     }
-    '''
+    """
 
     try:
         repo = git.Repo(search_parent_directories=True)

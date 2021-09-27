@@ -5,6 +5,8 @@ import git
 from fastapi import APIRouter
 from pydantic import BaseModel
 
+from core.utils.http_response import OK
+
 router = APIRouter()
 
 
@@ -34,4 +36,4 @@ async def manage_version():
     creation_time = time.ctime(os.path.getmtime(base_dir))
 
     response = {'version': version, 'deployedOn': creation_time}
-    return response
+    return OK(response)

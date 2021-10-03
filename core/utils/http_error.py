@@ -20,11 +20,7 @@ class HTTPError(Exception):
         self.message = message
         self.errors = errors
         self.title = title
-
-    def create_error_response(self):
-        """Function to format http error response"""
-
-        response = {
+        self.response_json = {
             'statusCode': self.status_code,
             'error': {
                 'message': self.message,
@@ -35,13 +31,19 @@ class HTTPError(Exception):
             'metadata': {},
         }
 
-        return response
+    def make_error_response(self):
+        """Method to return response json
+
+        Returns:
+            [JSONResponse]: Error response
+        """
+        return JSONResponse(self.response_json, status_code=self.status_code)
 
 
 async def http_error_handler(request: Request, exc: HTTPError) -> JSONResponse:
     """Function to return response for http error"""
     return JSONResponse(
-        content=exc.create_error_response(),
+        content=exc.response_json,
         status_code=exc.status_code,
     )
 

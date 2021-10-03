@@ -169,6 +169,23 @@ class InternalServerError(HTTPError):
         super().__init__(message, status_code, error_subcode, errors, title)
 
 
+class GatewayTimeout(HTTPError):
+    """Exception for HTTP 504 extended from HttpError
+
+    A generic error message, given when web server didn’t receive a timely response from another server upstream when it attempted to load one of your web resource.
+    """
+
+    def __init__(
+        self,
+        message: str = 'Cant connect to server at this moment.\nIf the issue persists please contact support.',
+        status_code: int = 504,
+        error_subcode: int = 0,
+        errors={},
+        title: str = '',
+    ):
+        super().__init__(message, status_code, error_subcode, errors, title)
+
+
 class ServiceUnavailable(HTTPError):
     """Exception for HTTP 503 extended from HttpError
 

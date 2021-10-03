@@ -16,6 +16,7 @@ class OK(JSONResponse):
         """
 
         kwargs['status_code'] = 200
+        data['metadata'] = {**data.get('metadata', {})}
 
         super().__init__(data, **kwargs)
 
@@ -35,6 +36,7 @@ class Created(JSONResponse):
         """
 
         kwargs['status_code'] = 201
+        data['metadata'] = {**data.get('metadata', {})}
 
         super().__init__(data, **kwargs)
 
@@ -54,6 +56,7 @@ class Accepted(JSONResponse):
         """
 
         kwargs['status_code'] = 202
+        data['metadata'] = {**data.get('metadata', {})}
 
         super().__init__(data, **kwargs)
 
@@ -63,4 +66,6 @@ class NoContent(Response):
 
     def __init__(self, **kwargs):
         kwargs['status_code'] = 204
+        data['metadata'] = {**data.get('metadata', {})}
+
         super().__init__(headers={}, **kwargs)

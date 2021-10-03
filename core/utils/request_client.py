@@ -1,5 +1,12 @@
-import requests
 import time
+import traceback
+from copy import deepcopy
+from uuid import uuid4
+
+import aiohttp
+import requests
+
+from .http_error import GatewayTimeout, InternalServerError
 
 
 async def make_async_request(
@@ -15,6 +22,7 @@ async def make_async_request(
     content_type=None,
     request_id=None,
     request_mask_map=None,
+    connector=aiohttp.TCPConnector(limit=64, verify_ssl=False),
 ):
     '''Make async external request to a URL using python's request module.
 
@@ -95,11 +103,11 @@ async def make_async_request(
     # )
 
     if not session:
-        session = requests.Session()
+        session = aiohttp.ClientSession(connector=connector)
 
     try:
         request_epoch = time.time() * 1000
-        with session:
+        async with session:
             response = await session.request(method, url, **req)
 
             response_code = response.status
@@ -115,31 +123,37 @@ async def make_async_request(
 
         response_epoch = time.time() * 1000
 
-        app_logger.info(
-            'API_RESPONSE',
-            extra={
-                'meta': {
-                    'logType': 'APP',
-                    'responseCode': response_code,
-                    'responseTime': str(response_epoch - request_epoch),
-                    'responseContent': (
-                        response_content if (int(response_code / 100) != 2 or settings.DEBUG) else "{}"
-                    ),
-                    'requestId': request_id,
-                }
-            },
-        )
+        # app_logger.info(
+        #     'API_RESPONSE',
+        #     extra={
+        #         'meta': {
+        #             'logType': 'APP',
+        #             'responseCode': response_code,
+        #             'responseTime': str(response_epoch - request_epoch),
+        #             'responseContent': (
+        #                 response_content if (int(response_code / 100) != 2 or settings.DEBUG) else "{}"
+        #             ),
+        #             'requestId': request_id,
+        #         }
+        #     },
+        # )
 
     except ValueError:
         # app_logger.exception('API_ERROR')
+        traceback.format_exc()
+        traceback.print_exc()
         raise InternalServerError()
 
     except requests.exceptions.ReadTimeout:
         # app_logger.exception('API_TIMEOUT_ERROR')
+        traceback.format_exc()
+        traceback.print_exc()
         raise GatewayTimeout()
 
     except Exception as e:
         # app_logger.exception('API_ERROR')
+        traceback.format_exc()
+        traceback.print_exc()
         raise InternalServerError()
 
     return (response_json, response_content, response_code, error)

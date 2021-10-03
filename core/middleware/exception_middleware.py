@@ -3,6 +3,7 @@ import traceback
 from starlette.requests import Request
 
 from ..utils.http_error import InternalServerError
+from ..utils.loggers.app_logger import app_logger
 
 
 async def catch_exceptions_middleware(request: Request, call_next):
@@ -19,7 +20,5 @@ async def catch_exceptions_middleware(request: Request, call_next):
     try:
         return await call_next(request)
     except Exception:
-        traceback.print_exc()
-        traceback.format_exc()
-        # TODO: Add logging
+        app_logger.exception('ERROR')
         return InternalServerError().make_error_response()

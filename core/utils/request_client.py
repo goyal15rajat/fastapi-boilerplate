@@ -5,8 +5,12 @@ from uuid import uuid4
 
 import aiohttp
 import requests
+import ujson
+
+from core.settings import app_configs
 
 from .http_error import GatewayTimeout, InternalServerError
+from .loggers.app_logger import app_logger
 
 
 async def make_async_request(
@@ -86,21 +90,20 @@ async def make_async_request(
                     if request_dict.get(request_attr, {}).get(hidden_key, None):
                         request_dict[request_attr][hidden_key] = '## HIDDEN ##'
     except Exception:
-        pass
-        # app_logger.exception('API_ERROR_WHILE_MASKING')
+        app_logger.exception('API_ERROR_WHILE_MASKING')
 
-    # app_logger.info(
-    #     'API_REQUEST',
-    #     extra={
-    #         'meta': {
-    #             'logType': 'APP',
-    #             'requestPath': url,
-    #             'requestMethod': method,
-    #             'requestDict': ujson.dumps(request_dict),
-    #             'requestId': request_id,
-    #         }
-    #     },
-    # )
+    app_logger.info(
+        'API_REQUEST',
+        extra={
+            'meta': {
+                'logType': 'APP',
+                'requestPath': url,
+                'requestMethod': method,
+                'requestDict': ujson.dumps(request_dict),
+                'requestId': request_id,
+            }
+        },
+    )
 
     if not session:
         session = aiohttp.ClientSession(connector=connector)
@@ -123,37 +126,31 @@ async def make_async_request(
 
         response_epoch = time.time() * 1000
 
-        # app_logger.info(
-        #     'API_RESPONSE',
-        #     extra={
-        #         'meta': {
-        #             'logType': 'APP',
-        #             'responseCode': response_code,
-        #             'responseTime': str(response_epoch - request_epoch),
-        #             'responseContent': (
-        #                 response_content if (int(response_code / 100) != 2 or settings.DEBUG) else "{}"
-        #             ),
-        #             'requestId': request_id,
-        #         }
-        #     },
-        # )
+        app_logger.info(
+            'API_RESPONSE',
+            extra={
+                'meta': {
+                    'logType': 'APP',
+                    'responseCode': response_code,
+                    'responseTime': str(response_epoch - request_epoch),
+                    'responseContent': (
+                        response_content if (int(response_code / 100) != 2 or app_configs.DEBUG) else "{}"
+                    ),
+                    'requestId': request_id,
+                }
+            },
+        )
 
     except ValueError:
-        # app_logger.exception('API_ERROR')
-        traceback.format_exc()
-        traceback.print_exc()
+        app_logger.exception('API_ERROR')
         raise InternalServerError()
 
     except requests.exceptions.ReadTimeout:
-        # app_logger.exception('API_TIMEOUT_ERROR')
-        traceback.format_exc()
-        traceback.print_exc()
+        app_logger.exception('API_TIMEOUT_ERROR')
         raise GatewayTimeout()
 
-    except Exception as e:
-        # app_logger.exception('API_ERROR')
-        traceback.format_exc()
-        traceback.print_exc()
+    except Exception:
+        app_logger.exception('API_ERROR')
         raise InternalServerError()
 
     return (response_json, response_content, response_code, error)

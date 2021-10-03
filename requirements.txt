@@ -1,4 +1,3 @@
---extra-index-url https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@artifactory.innovaccer.net/repository/py-engineering/simple
 aiohttp==3.7.4.post0
 asgiref==3.4.1
 async-timeout==3.0.1
@@ -29,7 +28,6 @@ platformdirs==2.3.0
 pluggy==1.0.0
 pre-commit==2.15.0
 py==1.10.0
-py-json-logger==0.0.4
 pydantic==1.8.2
 pyparsing==2.4.7
 pytest==6.2.5

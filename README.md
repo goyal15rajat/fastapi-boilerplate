@@ -31,7 +31,6 @@ ENV_CODE=pd
 MONGO_HOST=127.0.0.1
 MONGO_PORT=27017
 MONGO_DBNAME=boilerplate
-NUCLEUS_URI=https://nucleus-dev.innovaccer.net/
 ```
 
 ## Docker Deployment

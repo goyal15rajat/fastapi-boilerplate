@@ -26,7 +26,7 @@ async def make_async_request(
     content_type=None,
     request_id=None,
     request_mask_map=None,
-    connector=aiohttp.TCPConnector(limit=64, verify_ssl=False),
+    connector=None),
 ):
     '''Make async external request to a URL using python's request module.
 
@@ -104,6 +104,9 @@ async def make_async_request(
             }
         },
     )
+
+    if not connector:
+        connector = aiohttp.TCPConnector(limit=64, verify_ssl=False
 
     if not session:
         session = aiohttp.ClientSession(connector=connector)

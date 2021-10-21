@@ -1,12 +1,13 @@
 import os
 from logging.config import dictConfig
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 
 from core.middleware.exception_middleware import catch_exceptions_middleware
 from core.middleware.logger_middleware import api_req_res_logger
 from core.routes import api_router as core_router
 from core.settings import app_configs
+from core.utils.dependencies import log_request_json
 from core.utils.http_error import (
     BadRequest,
     Forbidden,
@@ -46,7 +47,7 @@ app.add_exception_handler(Unprocessable, http_error_handler)
 app.add_exception_handler(InternalServerError, http_error_handler)
 app.add_exception_handler(ServiceUnavailable, http_error_handler)
 
-app.include_router(core_router, prefix=f"/api/{app_configs.APP_NAME}")
+app.include_router(core_router, prefix=f"/api/{app_configs.APP_NAME}", dependencies=[Depends(log_request_json)])
 
 app.middleware('http')(catch_exceptions_middleware)
 app.middleware('http')(api_req_res_logger)

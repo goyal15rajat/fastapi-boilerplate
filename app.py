@@ -1,8 +1,9 @@
 import os
 from logging.config import dictConfig
 
-from fastapi import FastAPI, Depends
+from fastapi import Depends, FastAPI
 
+from core.connections.redis_manager import redis_cache
 from core.middleware.exception_middleware import catch_exceptions_middleware
 from core.middleware.logger_middleware import api_req_res_logger
 from core.routes import api_router as core_router
@@ -35,6 +36,11 @@ app = FastAPI(
     docs_url=f"/api/{app_configs.APP_NAME}{app_configs.DOCS_URL}" if app_configs.DOCS_URL else None,
     redoc_url=f"/api/{app_configs.APP_NAME}{app_configs.REDOC_URL}" if app_configs.REDOC_URL else None,
 )
+
+# To start redis on service bootup
+# @app.on_event('startup')
+# async def starup_event():
+#     redis_cache.init_redis()
 
 
 # Registering error handlers

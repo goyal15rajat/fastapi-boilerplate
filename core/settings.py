@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     ENV_CODE: str = "pd"
     MONGO_HOST: str = "127.0.0.1"
     MONGO_PORT: str = "27017"
-    MONGO_DBNAME: str = "innote-vision"
+    MONGO_DBNAME: str = "boilerplate"
     REDOC_URL: str = None
     DOCS_URL: str = None
     LOGGING_CONFIG: dict = {
@@ -33,6 +33,10 @@ class Settings(BaseSettings):
             "": {"handlers": ["default"], "level": "DEBUG"},
         },
     }
+    REDIS_KEY_PREFIX: str = "boilerplate"
+    REDIS_HOST: str = "127.0.0.1"
+    REDIS_PORT: str = "6379"
+    REDIS_DBNAME: int = 2
 
     class Config:
         env_file = '.env'

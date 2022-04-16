@@ -7,7 +7,6 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     ENV: str = "prod"
     CUSTOMER_CODE: str = "internal"
-    ENV_CODE: str = "pd"
     MONGO_HOST: str = "127.0.0.1"
     MONGO_PORT: str = "27017"
     MONGO_DBNAME: str = "boilerplate"

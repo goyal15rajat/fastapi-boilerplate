@@ -3,6 +3,7 @@ from logging.config import dictConfig
 
 from fastapi import Depends, FastAPI
 
+from core.connections.mongo import close_mongo_connection, connect_to_mongo
 from core.connections.redis_manager import redis_cache
 from core.middleware.exception_middleware import catch_exceptions_middleware
 from core.middleware.logger_middleware import api_req_res_logger
@@ -37,10 +38,17 @@ app = FastAPI(
     redoc_url=f"/api/{app_configs.APP_NAME}{app_configs.REDOC_URL}" if app_configs.REDOC_URL else None,
 )
 
-# To start redis on service bootup
-# @app.on_event('startup')
-# async def starup_event():
-#     redis_cache.init_redis()
+# To start redis and mongo on service bootup
+@app.on_event('startup')
+async def starup_event():
+    # redis_cache.init_redis()
+    connect_to_mongo()
+
+
+# To stop mongo on service bootup
+@app.on_event('shutdown')
+async def shotdown_event():
+    await close_mongo_connection()
 
 
 # Registering error handlers

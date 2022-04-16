@@ -2,6 +2,7 @@
 
 ### Feat
 
+- **mongo**: add mongo connection
 - **redis**: add redis manage and commitizen rule
 - *****: add app logger
 - *****: add app logger

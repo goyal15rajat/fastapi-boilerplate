@@ -1,17 +1,30 @@
 default_language_version:
-    python: python3.8
+  python: python3.8
 default_stages: [commit, push, prepare-commit-msg, commit-msg]
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
-    -   id: check-yaml
-    -   id: check-added-large-files
-    -   id: check-json
--   repo: https://github.com/psf/black
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-json
+  - repo: https://github.com/psf/black
     rev: 21.9b0
     hooks:
-    -   id: black
+      - id: black
         language_version: python3.8
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v2.20.3
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+  - repo: local
+    hooks:
+      - id: commit-changelog
+        stages: [post-commit]
+        name: commit-changelog
+        entry: "./auto_changelog.sh"
+        language: script
+        always_run: true

@@ -113,9 +113,7 @@ async def make_async_request(
 
     try:
         request_epoch = time.time() * 1000
-        async with session:
-            response = await session.request(method, url, **req)
-
+        async with session.request(method, url, **req) as response:
             response_code = response.status
 
             response_content = await response.text()

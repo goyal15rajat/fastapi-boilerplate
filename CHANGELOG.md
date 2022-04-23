@@ -1,5 +1,12 @@
 ## Unreleased
 
+### Fix
+
+- **core**: fix make_async_request
+- *****: remove default connector from make_async_request
+- *****: remove default connector from make_async_request
+- **request**: fix make_async_request and add sample route for external requests
+
 ### Feat
 
 - **mongo**: add mongo connection
@@ -20,9 +27,3 @@
 - *****: add pytest
 - *****: add pre commit files
 - *****: add pre commit files
-
-### Fix
-
-- *****: remove default connector from make_async_request
-- *****: remove default connector from make_async_request
-- **request**: fix make_async_request and add sample route for external requests

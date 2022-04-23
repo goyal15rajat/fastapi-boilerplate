@@ -7,13 +7,14 @@ Fastapi bolierplate
 For dev -
 
 ```bash
+pip install -r requirements.txt
 
 ```
 
 For production -
 
 ```bash
-
+pip install -r requirements.txt
 ```
 
 ## Usage
@@ -27,6 +28,7 @@ uvicorn app:app --reload
 For production -
 
 ```bash
+uvicorn app:app --workers 3
 
 ```
 
@@ -40,6 +42,7 @@ ENV_CODE=pd
 MONGO_HOST=127.0.0.1
 MONGO_PORT=27017
 MONGO_DBNAME=boilerplate
+REDIS_DBNAME=2
 ```
 
 ## Docker Deployment
@@ -47,18 +50,20 @@ MONGO_DBNAME=boilerplate
 To run the application in production mode:
 
 ```bash
+TBA
 
 ```
 
 To run the application in development mode:
 
 ```bash
-
+TBA
 ```
 
 To run the application in test mode:
 
 ```bash
+TBA
 
 ```
 

@@ -57,7 +57,7 @@ toml==0.10.2
 tomli==1.2.1
 tomlkit==0.10.1
 typing_extensions==4.1.1
-ujson==5.2.0
+ujson==5.4.0
 urllib3==1.26.7
 uvicorn==0.15.0
 virtualenv==20.8.0

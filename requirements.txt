@@ -51,7 +51,7 @@ regex==2021.9.24
 requests==2.26.0
 six==1.16.0
 smmap==4.0.0
-starlette==0.14.2
+starlette==0.25.0
 termcolor==1.1.0
 toml==0.10.2
 tomli==1.2.1

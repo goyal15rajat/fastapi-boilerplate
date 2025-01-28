@@ -4,6 +4,7 @@ from typing import Optional
 from core.settings import app_configs
 from core.utils.loggers.app_logger import app_logger
 
+
 class MongoConnectionSingleton:
     _instance = None
     _client: Optional[AsyncIOMotorClient] = None

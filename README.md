@@ -1,13 +1,13 @@
 # Fastapi Boilerplate
 
-Fastapi bolierplate
+Fastapi bolierplate with Python 3.11
 
 ## Installation
 
 For dev -
 
 ```bash
-virtualenv -p python3.8 venv
+python3.11 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 

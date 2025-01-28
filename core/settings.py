@@ -1,5 +1,5 @@
 import pythonjsonlogger
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -10,8 +10,8 @@ class Settings(BaseSettings):
     MONGO_HOST: str = "127.0.0.1"
     MONGO_PORT: str = "27017"
     MONGO_DBNAME: str = "boilerplate"
-    REDOC_URL: str = None
-    DOCS_URL: str = None
+    REDOC_URL: str = "/redoc"
+    DOCS_URL: str = "/doc"
     LOGGING_CONFIG: dict = {
         "version": 1,
         "disable_existing_loggers": False,

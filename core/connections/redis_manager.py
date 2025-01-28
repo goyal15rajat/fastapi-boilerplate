@@ -1,16 +1,17 @@
 import json
 from typing import Optional
 
-import aioredis
+import redis.asyncio as redis
+
 from core.settings import app_configs
 
 
 class RedisManager:
     def __init__(self):
-        self.redis_connection: Optional[aioredis.Redis] = None
+        self.redis_connection: Optional[redis.Redis] = None
 
     def init_redis(self):
-        self.redis_connection = aioredis.from_url(
+        self.redis_connection = redis.from_url(
             f'redis://{app_configs.REDIS_HOST}:{app_configs.REDIS_PORT}',
             db=app_configs.REDIS_DBNAME,
             encoding="utf-8",

@@ -79,6 +79,7 @@ TBA
 ## Dependencies
 
 - Mongo
+- Redis
 
 ## Contributing
 
@@ -93,7 +94,6 @@ pip install pre-commit
 pre-commit install
 pre-commit install --hook-type commit-msg
 pre-commit install --hook-type post-commit
-chmod +x auto_changelog.sh
 ```
 
 ## License

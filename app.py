@@ -26,6 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 dictConfig(app_configs.LOGGING_CONFIG)
 
+
 # To start redis and mongo on service bootup
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -34,6 +35,7 @@ async def lifespan(app: FastAPI):
     redis_cache.init_redis()
     yield
     await connection.close()
+
 
 app = FastAPI(
     title="FastApi bolierplate",

@@ -2,6 +2,8 @@
 
 Fastapi bolierplate with Python 3.11
 
+For example of website visit: https://goyal15rajat.github.io/fastapi-boilerplate/
+
 ## Installation
 
 For dev -

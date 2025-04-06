@@ -1,5 +1,13 @@
+import os
+
 import pythonjsonlogger
+from fastapi.templating import Jinja2Templates
 from pydantic_settings import BaseSettings
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Initialize templates
+templates = Jinja2Templates(directory="templates")
 
 
 class Settings(BaseSettings):

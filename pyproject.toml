@@ -17,3 +17,20 @@ exclude = '''
   | venv
 )/
 '''
+
+[tool.isort]
+profile = "black"
+line_length = 120
+py_version = 310
+skip = [
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".tox",
+    ".venv",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "venv"
+]

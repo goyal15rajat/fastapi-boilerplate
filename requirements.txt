@@ -18,7 +18,9 @@ GitPython==3.1.44
 h11==0.14.0
 idna==3.10
 iniconfig==2.0.0
+Jinja2==3.1.6
 lazy-model==0.2.0
+MarkupSafe==3.0.2
 motor==3.6.1
 multidict==6.1.0
 mypy-extensions==1.0.0

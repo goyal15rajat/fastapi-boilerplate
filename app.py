@@ -1,7 +1,9 @@
 import os
-from logging.config import dictConfig
 from contextlib import asynccontextmanager
+from logging.config import dictConfig
+
 from fastapi import Depends, FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from core.connections.mongo import MongoConnectionSingleton
 from core.connections.redis_manager import redis_cache
@@ -21,6 +23,7 @@ from core.utils.http_error import (
     Unprocessable,
     http_error_handler,
 )
+from webapp.routes import ui_router as webapp_router
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -50,6 +53,8 @@ app = FastAPI(
     redoc_url=f"/{app_configs.APP_NAME}/api{app_configs.REDOC_URL}" if app_configs.REDOC_URL else None,
 )
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 # Registering error handlers
 app.add_exception_handler(BadRequest, http_error_handler)
@@ -61,6 +66,7 @@ app.add_exception_handler(Unprocessable, http_error_handler)
 app.add_exception_handler(InternalServerError, http_error_handler)
 app.add_exception_handler(ServiceUnavailable, http_error_handler)
 
+app.include_router(webapp_router, prefix=f"/{app_configs.APP_NAME}/app")  # UI routes without prefix for direct access
 app.include_router(core_router, prefix=f"/{app_configs.APP_NAME}", dependencies=[Depends(log_request_json)])
 
 app.middleware('http')(catch_exceptions_middleware)

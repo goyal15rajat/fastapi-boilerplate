@@ -107,33 +107,10 @@ uvicorn app:app --workers 3
 APP_NAME=bolierplate
 ENV=dev
 CUSTOMER_CODE=internal
-ENV_CODE=pd
 MONGO_HOST=127.0.0.1
 MONGO_PORT=27017
 MONGO_DBNAME=boilerplate
 REDIS_DBNAME=2
-```
-
-## Docker Deployment
-
-To run the application in production mode:
-
-```bash
-TBA
-
-```
-
-To run the application in development mode:
-
-```bash
-TBA
-```
-
-To run the application in test mode:
-
-```bash
-TBA
-
 ```
 
 ## Nomenclature rules

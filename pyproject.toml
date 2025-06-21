@@ -52,7 +52,7 @@ dependencies = [
     "toml==0.10.2",
     "typing-extensions==4.12.2",
     "ujson==5.10.0",
-    "urllib3==2.3.0",
+    "urllib3==2.5.0",
     "uvicorn==0.34.0",
     "yarl==1.18.3",
 ]

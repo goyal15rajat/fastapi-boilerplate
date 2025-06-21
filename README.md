@@ -9,15 +9,16 @@ For example of website visit: https://goyal15rajat.github.io/fastapi-boilerplate
 For dev -
 
 ```bash
-uv venv
-source .venv/bin/activate
-uv sync
+python3.11 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
 ```
 
 For production -
 
 ```bash
-uv sync
+pip install -r requirements.txt
 ```
 
 ## Creating Your First App
@@ -40,6 +41,44 @@ your_app/
 ├── utils/
 └── routes.py
 ```
+
+
+## Handling WebSockets with Validation
+
+This boilerplate supports handling Socket.IO events with data validation using Pydantic. Example usage:
+
+### Example: Validating Incoming Socket Messages
+
+Suppose you have a namespace that expects messages with a specific structure. You can use Pydantic to validate incoming data:
+
+```python
+from pydantic import BaseModel, ValidationError
+import socketio
+
+class MessageModel(BaseModel):
+    text: str
+
+class AppEventNamespace(socketio.AsyncNamespace):
+    async def on_message(self, sid, data):
+        try:
+            message = MessageModel(**data)
+        except ValidationError as e:
+            await self.emit('error', {'error': e.errors()}, room=sid)
+            return
+        await self.emit('response', {'data': 'Message received'}, room=sid)
+```
+
+If the incoming data does not match the expected structure, an error is sent back to the client.
+
+### Testing the WebSocket Endpoint
+
+You can connect to the WebSocket endpoint using a Socket.IO client or a compatible tool:
+
+```
+ws://127.0.0.1:8000/{app_name}/ws/socket.io/event?EIO=4&transport=websocket
+```
+
+Send a message event with the expected data structure to see validation in action.
 
 ## UI Templating
 
@@ -133,7 +172,7 @@ Please make sure to update tests as appropriate.
 [_Install pre-commit_](https://pre-commit.com/)
 
 ```bash
-pip install pre-commit
+uv add pre-commit --dev
 pre-commit install
 pre-commit install --hook-type commit-msg
 pre-commit install --hook-type post-commit

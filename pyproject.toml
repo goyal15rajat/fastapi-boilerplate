@@ -43,6 +43,7 @@ dependencies = [
     "pytest==8.3.4",
     "python-dotenv==1.0.1",
     "python-json-logger==3.2.1",
+    "python-socketio>=5.13.0",
     "redis==5.2.1",
     "requests==2.32.3",
     "smmap==5.0.2",
@@ -91,4 +92,9 @@ skip = [
     "build",
     "dist",
     "venv"
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
 ]

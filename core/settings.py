@@ -44,6 +44,8 @@ class Settings(BaseSettings):
     REDIS_HOST: str = "127.0.0.1"
     REDIS_PORT: str = "6379"
     REDIS_DBNAME: int = 2
+    PING_TIMEOUT: int = 10
+    PING_INTERVAL: int = 60
 
     class Config:
         env_file = '.env'

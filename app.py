@@ -2,6 +2,7 @@ import os
 from contextlib import asynccontextmanager
 from logging.config import dictConfig
 
+import socketio
 from fastapi import Depends, FastAPI
 from fastapi.staticfiles import StaticFiles
 
@@ -24,6 +25,7 @@ from core.utils.http_error import (
     http_error_handler,
 )
 from webapp.routes import ui_router as webapp_router
+from ws_app.app_event import AppEventNamespace
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -53,8 +55,19 @@ app = FastAPI(
     redoc_url=f"/{app_configs.APP_NAME}/api{app_configs.REDOC_URL}" if app_configs.REDOC_URL else None,
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+sio = socketio.AsyncServer(
+    async_mode='asgi',
+    cors_allowed_origins='*',
+    async_handlers=True,
+    engineio_logger=app_configs.DEBUG,
+    ping_interval=app_configs.PING_INTERVAL,
+    ping_timeout=app_configs.PING_TIMEOUT,
+)
+sio.register_namespace(AppEventNamespace('/event'))
+socket_app = socketio.ASGIApp(sio, socketio_path=f'/{app_configs.APP_NAME}/ws/socket.io')
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount(f"/{app_configs.APP_NAME}/ws/socket.io", socket_app)  # Mounting Socket.IO app at /boilerplate/ws
 
 # Registering error handlers
 app.add_exception_handler(BadRequest, http_error_handler)

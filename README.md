@@ -9,16 +9,17 @@ For example of website visit: https://goyal15rajat.github.io/fastapi-boilerplate
 For dev -
 
 ```bash
-python3.11 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
+uv init
+uv sync
+uvicorn app:app --reload
 ```
 
 For production -
 
 ```bash
-pip install -r requirements.txt
+uv init
+uv sync
+uvicorn app:app --host 0.0.0.0 --port 8080 --workers 4
 ```
 
 ## Creating Your First App
